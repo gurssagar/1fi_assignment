@@ -351,23 +351,24 @@ export function EmiPlans({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.3, ease: smoothEase }}
-                        className="rounded-lg border border-green-200 bg-green-50/50 p-4 dark:border-green-800 dark:bg-green-950/20"
+                        className="rounded-lg border p-4 dark:border-purple-800 dark:bg-purple-950/20"
+                        style={{ borderColor: 'rgba(120, 50, 223, 0.2)', backgroundColor: 'rgba(120, 50, 223, 0.05)' }}
                       >
                         <h3 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-                          <Shield className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <Shield className="h-4 w-4 dark:text-purple-400" style={{ color: '#7832df' }} />
                           Security & Protection
                         </h3>
                         <ul className="space-y-2 text-sm text-muted-foreground">
                           <li className="flex items-start gap-2">
-                            <Shield className="mt-0.5 h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
+                            <Shield className="mt-0.5 h-4 w-4 shrink-0 dark:text-purple-400" style={{ color: '#7832df' }} />
                             <span>All transactions are secured with 256-bit SSL encryption</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <Shield className="mt-0.5 h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
+                            <Shield className="mt-0.5 h-4 w-4 shrink-0 dark:text-purple-400" style={{ color: '#7832df' }} />
                             <span>Your data is protected as per RBI guidelines and data protection laws</span>
                           </li>
                           <li className="flex items-start gap-2">
-                            <Shield className="mt-0.5 h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
+                            <Shield className="mt-0.5 h-4 w-4 shrink-0 dark:text-purple-400" style={{ color: '#7832df' }} />
                             <span>Mutual fund investments are managed by SEBI-registered fund houses</span>
                           </li>
                         </ul>

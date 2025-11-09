@@ -62,7 +62,7 @@ export function OrdersPage() {
       case "shipped":
         return "bg-purple-500/10 text-purple-600 dark:text-purple-400"
       case "delivered":
-        return "bg-green-500/10 text-green-600 dark:text-green-400"
+        return "bg-[rgba(120,50,223,0.1)] text-[#7832df] dark:text-purple-400"
       case "cancelled":
         return "bg-red-500/10 text-red-600 dark:text-red-400"
       default:

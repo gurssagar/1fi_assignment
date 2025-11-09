@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,10 +13,12 @@ import { FadeIn, SlideUp, smoothEase } from "@/components/animation-wrapper"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { toast } from "sonner"
-import { Mail, Lock, User, Phone, ArrowRight } from "lucide-react"
+import { Mail, Lock, User, Phone, ArrowRight, Github } from "lucide-react"
+import { signInWithGitHub } from "@/lib/auth-client"
 
 export function SignupPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { signup } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -46,11 +48,24 @@ export function SignupPage() {
         toast.error(result.error)
       } else {
         toast.success("Account created successfully!")
-        router.push("/orders")
+        const returnUrl = searchParams.get("returnUrl")
+        router.push(returnUrl || "/orders")
       }
     } catch (error) {
       toast.error("Failed to create account. Please try again.")
     } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleGitHubSignUp = async () => {
+    setIsLoading(true)
+    try {
+      await signInWithGitHub()
+      toast.success("Redirecting to GitHub...")
+      // The redirect will happen automatically via better-auth
+    } catch (error) {
+      toast.error("Failed to sign up with GitHub. Please try again.")
       setIsLoading(false)
     }
   }
@@ -176,9 +191,41 @@ export function SignupPage() {
                   </motion.div>
                 </form>
 
+                <div className="relative my-6">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      Or continue with
+                    </span>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6, duration: 0.5, ease: smoothEase }}
+                >
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                    onClick={handleGitHubSignUp}
+                    disabled={isLoading}
+                  >
+                    <Github className="mr-2 h-4 w-4" />
+                    Sign up with GitHub
+                  </Button>
+                </motion.div>
+
                 <div className="mt-6 text-center text-sm">
                   <span className="text-muted-foreground">Already have an account? </span>
-                  <Link href="/login" className="font-semibold text-accent hover:underline">
+                  <Link 
+                    href={`/login${searchParams.get("returnUrl") ? `?returnUrl=${encodeURIComponent(searchParams.get("returnUrl")!)}` : ""}`} 
+                    className="font-semibold text-accent hover:underline"
+                  >
                     Sign in
                   </Link>
                 </div>

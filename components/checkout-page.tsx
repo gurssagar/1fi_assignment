@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Check, CreditCard, MapPin, Phone, Mail, User, Lock, Shield } from "lucide-react"
@@ -17,13 +17,24 @@ import { toast } from "sonner"
 import { Header } from "@/components/header"
 import { useAuth } from "@/lib/context/auth-context"
 import { createOrder } from "@/lib/actions/orders"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 export function CheckoutPage() {
   const router = useRouter()
   const { items, totalAmount, totalItems, clearCart } = useCart()
-  const { user } = useAuth()
+  const { user, isLoading: authLoading } = useAuth()
   const [isProcessing, setIsProcessing] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -36,6 +47,13 @@ export function CheckoutPage() {
     landmark: "",
     paymentMethod: "emi",
   })
+
+  // Show login prompt when user is not logged in and component mounts
+  useEffect(() => {
+    if (!authLoading && !user && items.length > 0) {
+      setShowLoginPrompt(true)
+    }
+  }, [authLoading, user, items.length])
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-IN", {
@@ -54,12 +72,21 @@ export function CheckoutPage() {
     return items.reduce((sum, item) => sum + item.cashback * item.quantity, 0)
   }
 
+  const handleLoginPromptYes = () => {
+    setShowLoginPrompt(false)
+    router.push("/login?returnUrl=/checkout")
+  }
+
+  const handleLoginPromptNo = () => {
+    setShowLoginPrompt(false)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!user) {
       toast.error("Please login to place an order")
-      router.push("/login")
+      router.push("/login?returnUrl=/checkout")
       return
     }
 
@@ -129,7 +156,8 @@ export function CheckoutPage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-500"
+              className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full"
+              style={{ backgroundColor: '#7832df' }}
             >
               <Check className="h-8 w-8 text-white" />
             </motion.div>
@@ -148,6 +176,26 @@ export function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <AlertDialog open={showLoginPrompt} onOpenChange={setShowLoginPrompt}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Login to Track Your Order</AlertDialogTitle>
+            <AlertDialogDescription>
+              Would you like to login or create an account? This will allow you to:
+              <ul className="mt-2 list-disc space-y-1 pl-5">
+                <li>Track your order status</li>
+                <li>View order history</li>
+                <li>Get faster checkout next time</li>
+              </ul>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleLoginPromptNo}>Continue as Guest</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLoginPromptYes}>Login / Sign Up</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Header 
         variant="checkout" 
         title="Checkout" 
@@ -434,8 +482,8 @@ export function CheckoutPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-green-200 bg-green-50/50 p-3 dark:border-green-800 dark:bg-green-950/20">
-                    <div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-400">
+                  <div className="rounded-lg border p-3 dark:border-purple-800 dark:bg-purple-950/20" style={{ borderColor: 'rgba(120, 50, 223, 0.2)', backgroundColor: 'rgba(120, 50, 223, 0.05)' }}>
+                    <div className="flex items-center gap-2 text-sm dark:text-purple-400" style={{ color: '#7832df' }}>
                       <Shield className="h-4 w-4" />
                       <span>Secure 256-bit SSL encrypted checkout</span>
                     </div>

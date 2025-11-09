@@ -55,6 +55,18 @@ export function CheckoutPage() {
     }
   }, [authLoading, user, items.length])
 
+  // Auto-fill user information when user is logged in
+  useEffect(() => {
+    if (user && !authLoading) {
+      setFormData((prev) => ({
+        ...prev,
+        fullName: prev.fullName || user.fullName || "",
+        email: prev.email || user.email || "",
+        phone: prev.phone || user.phone || "",
+      }))
+    }
+  }, [user, authLoading])
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -203,11 +215,11 @@ export function CheckoutPage() {
         onBack={() => router.back()} 
       />
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-3">
+      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
+        <div className="grid gap-6 sm:gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <SlideUp delay={0.2}>
-              <h1 className="mb-6 text-2xl font-bold text-foreground">Shipping Information</h1>
+              <h1 className="mb-4 text-xl font-bold text-foreground sm:mb-6 sm:text-2xl">Shipping Information</h1>
             </SlideUp>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -231,7 +243,14 @@ export function CheckoutPage() {
                           value={formData.fullName}
                           onChange={handleInputChange}
                           placeholder="Enter your full name"
+                          className={user && formData.fullName === user.fullName ? "border-accent/50 bg-accent/5" : ""}
                         />
+                        {user && formData.fullName === user.fullName && (
+                          <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
+                            <Check className="h-3 w-3 text-accent" />
+                            Auto-filled from your account
+                          </p>
+                        )}
                       </div>
                       <div className="grid gap-4 sm:grid-cols-2">
                         <div>
@@ -246,9 +265,15 @@ export function CheckoutPage() {
                               value={formData.email}
                               onChange={handleInputChange}
                               placeholder="your@email.com"
-                              className="pl-10"
+                              className={`pl-10 ${user && formData.email === user.email ? "border-accent/50 bg-accent/5" : ""}`}
                             />
                           </div>
+                          {user && formData.email === user.email && (
+                            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
+                              <Check className="h-3 w-3 text-accent" />
+                              Auto-filled from your account
+                            </p>
+                          )}
                         </div>
                         <div>
                           <Label htmlFor="phone">Phone Number *</Label>
@@ -262,9 +287,15 @@ export function CheckoutPage() {
                               value={formData.phone}
                               onChange={handleInputChange}
                               placeholder="+91 98765 43210"
-                              className="pl-10"
+                              className={`pl-10 ${user && user.phone && formData.phone === user.phone ? "border-accent/50 bg-accent/5" : ""}`}
                             />
                           </div>
+                          {user && user.phone && formData.phone === user.phone && (
+                            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
+                              <Check className="h-3 w-3 text-accent" />
+                              Auto-filled from your account
+                            </p>
+                          )}
                         </div>
                       </div>
                     </CardContent>
@@ -411,17 +442,17 @@ export function CheckoutPage() {
             </form>
           </div>
 
-          <div className="lg:col-span-1">
+          <div className="order-first lg:order-last lg:col-span-1">
             <SlideUp delay={0.3}>
-              <Card className="sticky top-24">
+              <Card className="sticky top-20 lg:top-24">
                 <CardHeader>
-                  <CardTitle>Order Summary</CardTitle>
+                  <CardTitle className="text-lg sm:text-xl">Order Summary</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-3 sm:space-y-4">
                   <div className="space-y-3">
                     {items.map((item) => (
-                      <div key={item.id} className="flex gap-3 rounded-lg border border-border p-3">
-                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-muted">
+                      <div key={item.id} className="flex gap-2 rounded-lg border border-border p-2 sm:gap-3 sm:p-3">
+                        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md bg-muted sm:h-16 sm:w-16">
                           <img
                             src={item.productImage || "/placeholder.svg"}
                             alt={item.productName}

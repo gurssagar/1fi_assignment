@@ -17,14 +17,14 @@ export function RelatedProducts({ products }: RelatedProductsProps) {
   }
 
   return (
-    <section className="border-t border-border bg-background py-12 sm:py-16">
+    <section className="border-t border-border bg-background py-8 sm:py-12 lg:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SlideUp delay={0.2}>
-          <h2 className="mb-6 text-balance text-xl font-bold tracking-tight sm:mb-8 sm:text-2xl lg:text-3xl">
+          <h2 className="mb-4 text-balance text-lg font-bold tracking-tight sm:mb-6 sm:text-xl lg:mb-8 lg:text-2xl xl:text-3xl">
             You Might Also Like
           </h2>
         </SlideUp>
-        <StaggerContainer className="grid gap-4 xs:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+        <StaggerContainer className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:gap-6 lg:grid-cols-4">
           {products.map((product) => {
             const priceInK = (product.base_price / 1000).toFixed(1)
             const emiFrom = Math.floor(product.base_price / 12)

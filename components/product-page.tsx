@@ -82,8 +82,8 @@ export function ProductPage({ product, relatedProducts }: ProductPageProps) {
     <div className="min-h-screen bg-background">
       <ProductHeader />
 
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <div className="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:gap-12">
+      <main className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+        <div className="grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-12">
           <SlideUp delay={0.2}>
             <ProductGallery key={selectedColor} images={productData.images} productName={productData.name} />
           </SlideUp>

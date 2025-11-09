@@ -136,22 +136,22 @@ export function ProductsPage({ products }: ProductsPageProps) {
     <div className="min-h-screen bg-background">
       <Header variant="default" showGetStarted />
 
-      <section className="border-b border-border bg-gradient-to-b from-muted/50 to-background py-12 sm:py-16">
+      <section className="border-b border-border bg-gradient-to-b from-muted/50 to-background py-8 sm:py-12 lg:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <FadeIn delay={0.2}>
             <Link
               href="/"
-              className="mb-4 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="mb-3 inline-flex items-center gap-2 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground sm:mb-4 sm:text-sm"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4" />
               Back to Home
             </Link>
           </FadeIn>
           <SlideUp delay={0.3}>
-            <h1 className="mb-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">All Products</h1>
+            <h1 className="mb-3 text-balance text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl lg:text-4xl xl:text-5xl">All Products</h1>
           </SlideUp>
           <FadeIn delay={0.4}>
-            <p className="text-pretty text-lg text-muted-foreground sm:text-xl">
+            <p className="text-pretty text-sm text-muted-foreground sm:text-base lg:text-lg xl:text-xl">
               Browse our complete collection of premium electronics with flexible EMI options
             </p>
           </FadeIn>
@@ -161,7 +161,7 @@ export function ProductsPage({ products }: ProductsPageProps) {
       <section className="bg-background py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 lg:flex-row">
-            <aside className={`${isSidebarOpen ? "block" : "hidden"} lg:block lg:w-64 lg:shrink-0`}>
+            <aside className={`${isSidebarOpen ? "block" : "hidden"} w-full lg:block lg:w-64 lg:shrink-0`}>
               <SlideUp delay={0.2}>
                 <Card className="sticky top-24 border-border">
                   <CardContent className="p-6">
@@ -294,7 +294,7 @@ export function ProductsPage({ products }: ProductsPageProps) {
 
             <div className="flex-1">
               <FadeIn delay={0.2}>
-                <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mb-4 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
@@ -327,7 +327,7 @@ export function ProductsPage({ products }: ProductsPageProps) {
                 {filteredAndSortedProducts.length > 0 ? (
                   <StaggerContainer
                     key={`products-${filteredAndSortedProducts.length}-${selectedCategories.join(',')}-${selectedBrands.join(',')}-${priceRange[0]}-${priceRange[1]}`}
-                    className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
+                    className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
                   >
                     {filteredAndSortedProducts.map((product) => {
               const priceInK = (product.base_price / 1000).toFixed(1)
@@ -362,15 +362,15 @@ export function ProductsPage({ products }: ProductsPageProps) {
                             </motion.div>
                           )}
                         </div>
-                        <CardContent className="p-4">
-                          <p className="mb-1 text-xs font-medium text-muted-foreground">{product.category}</p>
-                          <h3 className="mb-2 line-clamp-2 text-balance text-lg font-semibold">{product.name}</h3>
-                          <div className="mb-3 flex items-baseline gap-2">
-                            <span className="text-2xl font-bold">₹{priceInK}K</span>
+                        <CardContent className="p-3 sm:p-4">
+                          <p className="mb-1 text-[10px] font-medium text-muted-foreground sm:text-xs">{product.category}</p>
+                          <h3 className="mb-2 line-clamp-2 text-balance text-sm font-semibold sm:text-base lg:text-lg">{product.name}</h3>
+                          <div className="mb-2 flex items-baseline gap-2 sm:mb-3">
+                            <span className="text-xl font-bold sm:text-2xl">₹{priceInK}K</span>
                           </div>
-                          <div className="flex items-center justify-between rounded-lg bg-accent/10 px-3 py-2">
-                            <span className="text-xs font-medium text-muted-foreground">EMI from</span>
-                            <span className="text-sm font-semibold text-accent">₹{emiFrom.toLocaleString("en-IN")}/mo</span>
+                          <div className="flex items-center justify-between rounded-lg bg-accent/10 px-2 py-1.5 sm:px-3 sm:py-2">
+                            <span className="text-[10px] font-medium text-muted-foreground sm:text-xs">EMI from</span>
+                            <span className="text-xs font-semibold text-accent sm:text-sm">₹{emiFrom.toLocaleString("en-IN")}/mo</span>
                           </div>
                         </CardContent>
                       </Card>
@@ -387,12 +387,12 @@ export function ProductsPage({ products }: ProductsPageProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3, ease: smoothEase }}
-                    className="py-12 text-center"
+                    className="py-8 text-center sm:py-12"
                   >
-                    <div className="mx-auto max-w-md">
-                      <Filter className="mx-auto mb-4 h-12 w-12 text-muted-foreground" />
-                      <h3 className="mb-2 text-lg font-semibold text-foreground">No products found</h3>
-                      <p className="mb-4 text-sm text-muted-foreground">
+                    <div className="mx-auto max-w-md px-4">
+                      <Filter className="mx-auto mb-3 h-10 w-10 text-muted-foreground sm:mb-4 sm:h-12 sm:w-12" />
+                      <h3 className="mb-2 text-base font-semibold text-foreground sm:text-lg">No products found</h3>
+                      <p className="mb-4 text-xs text-muted-foreground sm:text-sm">
                         Try adjusting your filters to see more products
                       </p>
                       <Button variant="outline" onClick={handleClearFilters}>

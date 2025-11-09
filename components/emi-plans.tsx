@@ -93,12 +93,12 @@ export function EmiPlans({
         </div>
       </div>
 
-      <div className="grid gap-2.5 sm:gap-3">
+      <div className="grid gap-2 sm:gap-2.5 lg:gap-3">
         {plans.map((plan) => (
           <div
             key={plan.id}
             className={cn(
-              "group relative rounded-lg border-2 p-4 transition-all sm:rounded-xl sm:p-5",
+              "group relative rounded-lg border-2 p-3 transition-all sm:rounded-xl sm:p-4 lg:p-5",
               selectedPlan === plan.id
                 ? "border-accent bg-accent/5 shadow-sm"
                 : "border-border bg-card hover:border-accent/50",
@@ -167,49 +167,49 @@ export function EmiPlans({
                   </DialogTrigger>
                   <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                      <DialogTitle className="flex items-center gap-2 text-xl">
-                        <FileText className="h-5 w-5 text-accent" />
+                      <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                        <FileText className="h-4 w-4 text-accent sm:h-5 sm:w-5" />
                         EMI Plan Details - {plan.tenure} Months
                       </DialogTitle>
-                      <DialogDescription>
+                      <DialogDescription className="text-xs sm:text-sm">
                         Complete terms, conditions, and declarations for this EMI plan
                       </DialogDescription>
                     </DialogHeader>
 
-                    <div className="space-y-6 py-4">
+                    <div className="space-y-4 py-2 sm:space-y-6 sm:py-4">
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1, duration: 0.3, ease: smoothEase }}
-                        className="rounded-lg border border-border bg-muted/30 p-4"
+                        className="rounded-lg border border-border bg-muted/30 p-3 sm:p-4"
                       >
-                        <h3 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-                          <Sparkles className="h-4 w-4 text-accent" />
+                        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground sm:mb-3 sm:text-base">
+                          <Sparkles className="h-3 w-3 text-accent sm:h-4 sm:w-4" />
                           Plan Summary
                         </h3>
-                        <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="grid gap-2 sm:grid-cols-2 sm:gap-3">
                           <div>
-                            <p className="text-xs text-muted-foreground">Monthly Payment</p>
-                            <p className="text-lg font-bold text-foreground">{formatPrice(plan.monthlyPayment)}</p>
+                            <p className="text-[10px] text-muted-foreground sm:text-xs">Monthly Payment</p>
+                            <p className="text-base font-bold text-foreground sm:text-lg">{formatPrice(plan.monthlyPayment)}</p>
                           </div>
                           <div>
-                            <p className="text-xs text-muted-foreground">Tenure</p>
-                            <p className="text-lg font-bold text-foreground">{plan.tenure} Months</p>
+                            <p className="text-[10px] text-muted-foreground sm:text-xs">Tenure</p>
+                            <p className="text-base font-bold text-foreground sm:text-lg">{plan.tenure} Months</p>
                           </div>
                           <div>
-                            <p className="text-xs text-muted-foreground">Interest Rate</p>
-                            <p className="text-lg font-bold text-foreground">
+                            <p className="text-[10px] text-muted-foreground sm:text-xs">Interest Rate</p>
+                            <p className="text-base font-bold text-foreground sm:text-lg">
                               {plan.interestRate === 0 ? "0% (Zero Interest)" : `${plan.interestRate}%`}
                             </p>
                           </div>
                           <div>
-                            <p className="text-xs text-muted-foreground">Total Amount</p>
-                            <p className="text-lg font-bold text-foreground">{formatPrice(plan.totalAmount)}</p>
+                            <p className="text-[10px] text-muted-foreground sm:text-xs">Total Amount</p>
+                            <p className="text-base font-bold text-foreground sm:text-lg">{formatPrice(plan.totalAmount)}</p>
                           </div>
                           {plan.cashback > 0 && (
                             <div className="sm:col-span-2">
-                              <p className="text-xs text-muted-foreground">Cashback</p>
-                              <p className="text-lg font-bold text-accent">{formatPrice(plan.cashback)}</p>
+                              <p className="text-[10px] text-muted-foreground sm:text-xs">Cashback</p>
+                              <p className="text-base font-bold text-accent sm:text-lg">{formatPrice(plan.cashback)}</p>
                             </div>
                           )}
                         </div>
@@ -220,11 +220,11 @@ export function EmiPlans({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2, duration: 0.3, ease: smoothEase }}
                       >
-                        <h3 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-                          <Check className="h-4 w-4 text-accent" />
+                        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground sm:mb-3 sm:text-base">
+                          <Check className="h-3 w-3 text-accent sm:h-4 sm:w-4" />
                           Key Features
                         </h3>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
+                        <ul className="space-y-1.5 text-xs text-muted-foreground sm:space-y-2 sm:text-sm">
                           <li className="flex items-start gap-2">
                             <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                             <span>Zero interest EMI backed by mutual fund investments</span>
@@ -253,20 +253,20 @@ export function EmiPlans({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.3, ease: smoothEase }}
                       >
-                        <h3 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-                          <FileText className="h-4 w-4 text-accent" />
+                        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground sm:mb-3 sm:text-base">
+                          <FileText className="h-3 w-3 text-accent sm:h-4 sm:w-4" />
                           Terms & Conditions
                         </h3>
-                        <div className="space-y-3 text-sm text-muted-foreground">
+                        <div className="space-y-2 text-xs text-muted-foreground sm:space-y-3 sm:text-sm">
                           <div>
-                            <p className="font-medium text-foreground mb-1">Payment Schedule</p>
+                            <p className="font-medium text-foreground mb-0.5 sm:mb-1">Payment Schedule</p>
                             <p>
                               Monthly payments of {formatPrice(plan.monthlyPayment)} will be automatically deducted from
                               your registered payment method on the same date each month for {plan.tenure} months.
                             </p>
                           </div>
                           <div>
-                            <p className="font-medium text-foreground mb-1">Interest & Charges</p>
+                            <p className="font-medium text-foreground mb-0.5 sm:mb-1">Interest & Charges</p>
                             <p>
                               {plan.interestRate === 0
                                 ? "This is a zero-interest EMI plan. No interest charges apply."
@@ -302,13 +302,13 @@ export function EmiPlans({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4, duration: 0.3, ease: smoothEase }}
-                        className="rounded-lg border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-800 dark:bg-amber-950/20"
+                        className="rounded-lg border border-amber-200 bg-amber-50/50 p-3 dark:border-amber-800 dark:bg-amber-950/20 sm:p-4"
                       >
-                        <h3 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-                          <AlertCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground sm:mb-3 sm:text-base">
+                          <AlertCircle className="h-3 w-3 text-amber-600 dark:text-amber-400 sm:h-4 sm:w-4" />
                           Important Declarations
                         </h3>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
+                        <ul className="space-y-1.5 text-xs text-muted-foreground sm:space-y-2 sm:text-sm">
                           <li className="flex items-start gap-2">
                             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
                             <span>
@@ -351,14 +351,14 @@ export function EmiPlans({
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5, duration: 0.3, ease: smoothEase }}
-                        className="rounded-lg border p-4 dark:border-purple-800 dark:bg-purple-950/20"
+                        className="rounded-lg border p-3 dark:border-purple-800 dark:bg-purple-950/20 sm:p-4"
                         style={{ borderColor: 'rgba(120, 50, 223, 0.2)', backgroundColor: 'rgba(120, 50, 223, 0.05)' }}
                       >
-                        <h3 className="mb-3 flex items-center gap-2 font-semibold text-foreground">
-                          <Shield className="h-4 w-4 dark:text-purple-400" style={{ color: '#7832df' }} />
+                        <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-foreground sm:mb-3 sm:text-base">
+                          <Shield className="h-3 w-3 dark:text-purple-400 sm:h-4 sm:w-4" style={{ color: '#7832df' }} />
                           Security & Protection
                         </h3>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
+                        <ul className="space-y-1.5 text-xs text-muted-foreground sm:space-y-2 sm:text-sm">
                           <li className="flex items-start gap-2">
                             <Shield className="mt-0.5 h-4 w-4 shrink-0 dark:text-purple-400" style={{ color: '#7832df' }} />
                             <span>All transactions are secured with 256-bit SSL encryption</span>

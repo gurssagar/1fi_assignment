@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react"
 import { getCurrentUser, login as loginAction, signup as signupAction, logout as logoutAction, type User } from "@/lib/actions/auth"
 import { useRouter } from "next/navigation"
+import { useSession } from "@/lib/auth-client"
 
 interface AuthContextType {
   user: User | null
@@ -18,12 +19,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+  const { data: betterAuthSession, isPending: betterAuthLoading } = useSession()
 
   useEffect(() => {
     async function loadUser() {
       try {
-        const currentUser = await getCurrentUser()
-        setUser(currentUser)
+        // First try to get user from better-auth session
+        if (betterAuthSession?.user) {
+          const betterAuthUser = betterAuthSession.user
+          
+          // Try to get full user data from our database
+          const currentUser = await getCurrentUser()
+          
+          if (currentUser) {
+            setUser(currentUser)
+          } else if (betterAuthUser.email) {
+            // If user exists in better-auth but not in our DB, create a basic user object
+            setUser({
+              id: betterAuthUser.id || "",
+              email: betterAuthUser.email,
+              fullName: (betterAuthUser as any).name || betterAuthUser.email.split("@")[0] || "User",
+              phone: (betterAuthUser as any).phone || null,
+              createdAt: new Date().toISOString(),
+            })
+          }
+        } else {
+          // Fallback to cookie-based auth
+          const currentUser = await getCurrentUser()
+          setUser(currentUser)
+        }
       } catch (error) {
         console.error("Failed to load user:", error)
         setUser(null)
@@ -31,8 +55,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsLoading(false)
       }
     }
-    loadUser()
-  }, [])
+    
+    // Wait for better-auth session to load before checking
+    if (!betterAuthLoading) {
+      loadUser()
+    }
+  }, [betterAuthSession, betterAuthLoading])
 
   const login = async (email: string, password: string) => {
     try {

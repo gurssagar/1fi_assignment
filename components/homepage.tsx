@@ -22,15 +22,15 @@ export function Homepage({ products }: HomepageProps) {
       <Header showGetStarted />
 
       <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-muted/50 to-background">
-        <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <FadeIn delay={0.2}>
-              <Badge variant="secondary" className="mb-4">
+              <Badge variant="secondary" className="mb-3 sm:mb-4">
                 Powered by Mutual Funds
               </Badge>
             </FadeIn>
             <SlideUp delay={0.3}>
-              <h1 className="mb-6 text-balance text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="mb-4 text-balance text-3xl font-bold tracking-tight sm:mb-6 sm:text-4xl lg:text-5xl xl:text-6xl">
                 Buy Premium Products with{" "}
                 <span className="bg-gradient-to-r from-accent to-accent/70 bg-clip-text text-transparent">
                   Easy EMI Plans
@@ -38,7 +38,7 @@ export function Homepage({ products }: HomepageProps) {
               </h1>
             </SlideUp>
             <FadeIn delay={0.4}>
-              <p className="mb-8 text-pretty text-lg text-muted-foreground sm:text-xl">
+              <p className="mb-6 text-pretty text-base text-muted-foreground sm:mb-8 sm:text-lg lg:text-xl">
                 Shop for the latest smartphones, laptops, and electronics with flexible payment options. Zero interest EMI
                 backed by trusted mutual fund investments.
               </p>
@@ -63,12 +63,12 @@ export function Homepage({ products }: HomepageProps) {
         </div>
       </section>
 
-      <section className="border-b border-border bg-background py-16 sm:py-24">
+      <section className="border-b border-border bg-background py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SlideUp delay={0.2}>
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">Why Choose EMI Store?</h2>
-              <p className="text-pretty text-lg text-muted-foreground">
+            <div className="mb-8 text-center sm:mb-12">
+              <h2 className="mb-3 text-balance text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl lg:text-4xl">Why Choose EMI Store?</h2>
+              <p className="text-pretty text-sm text-muted-foreground sm:text-base lg:text-lg">
                 Discover what makes us the best choice for your next premium purchase
               </p>
             </div>
@@ -238,15 +238,15 @@ export function Homepage({ products }: HomepageProps) {
       <section id="products" className="bg-background py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SlideUp delay={0.2}>
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">Featured Products</h2>
-              <p className="text-pretty text-lg text-muted-foreground">
+            <div className="mb-8 text-center sm:mb-12">
+              <h2 className="mb-3 text-balance text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl lg:text-4xl">Featured Products</h2>
+              <p className="text-pretty text-sm text-muted-foreground sm:text-base lg:text-lg">
                 Explore our collection of premium electronics with flexible EMI options
               </p>
             </div>
           </SlideUp>
 
-          <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerContainer className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {products.map((product) => {
               const priceInK = (product.base_price / 1000).toFixed(1)
               const emiFrom = Math.floor(product.base_price / 12)
@@ -280,15 +280,15 @@ export function Homepage({ products }: HomepageProps) {
                             </motion.div>
                           )}
                         </div>
-                        <CardContent className="p-4">
-                          <p className="mb-1 text-xs font-medium text-muted-foreground">{product.category}</p>
-                          <h3 className="mb-2 text-balance text-lg font-semibold">{product.name}</h3>
-                          <div className="mb-3 flex items-baseline gap-2">
-                            <span className="text-2xl font-bold">₹{priceInK}K</span>
+                        <CardContent className="p-3 sm:p-4">
+                          <p className="mb-1 text-[10px] font-medium text-muted-foreground sm:text-xs">{product.category}</p>
+                          <h3 className="mb-2 line-clamp-2 text-balance text-sm font-semibold sm:text-base lg:text-lg">{product.name}</h3>
+                          <div className="mb-2 flex items-baseline gap-2 sm:mb-3">
+                            <span className="text-xl font-bold sm:text-2xl">₹{priceInK}K</span>
                           </div>
-                          <div className="flex items-center justify-between rounded-lg bg-accent/10 px-3 py-2">
-                            <span className="text-xs font-medium text-muted-foreground">EMI from</span>
-                            <span className="text-sm font-semibold text-accent">₹{emiFrom.toLocaleString("en-IN")}/mo</span>
+                          <div className="flex items-center justify-between rounded-lg bg-accent/10 px-2 py-1.5 sm:px-3 sm:py-2">
+                            <span className="text-[10px] font-medium text-muted-foreground sm:text-xs">EMI from</span>
+                            <span className="text-xs font-semibold text-accent sm:text-sm">₹{emiFrom.toLocaleString("en-IN")}/mo</span>
                           </div>
                         </CardContent>
                       </Card>
@@ -310,13 +310,13 @@ export function Homepage({ products }: HomepageProps) {
         </div>
       </section>
 
-      <section className="border-t border-border bg-gradient-to-b from-background to-muted/50 py-16 sm:py-24">
+      <section className="border-t border-border bg-gradient-to-b from-background to-muted/50 py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <SlideUp delay={0.2}>
-            <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight sm:text-4xl">Ready to Start Shopping?</h2>
+            <h2 className="mb-3 text-balance text-2xl font-bold tracking-tight sm:mb-4 sm:text-3xl lg:text-4xl">Ready to Start Shopping?</h2>
           </SlideUp>
           <FadeIn delay={0.3}>
-            <p className="mb-8 text-pretty text-lg text-muted-foreground">
+            <p className="mb-6 text-pretty text-sm text-muted-foreground sm:mb-8 sm:text-base lg:text-lg">
               Join thousands of customers who trust us for their premium electronics purchases
             </p>
           </FadeIn>

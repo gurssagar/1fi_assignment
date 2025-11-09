@@ -11,10 +11,10 @@ export function Footer() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.3, duration: 0.6, ease: smoothEase }}
-      className="border-t border-border bg-background py-12"
+      className="border-t border-border bg-background py-8 sm:py-12"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <StaggerContainer className="grid gap-8 md:grid-cols-4">
+        <StaggerContainer className="grid gap-6 sm:gap-8 sm:grid-cols-2 md:grid-cols-4">
           <div>
             <div className="mb-4 flex items-center gap-2">
               <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg sm:h-10 sm:w-10">

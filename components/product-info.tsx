@@ -78,8 +78,8 @@ export function ProductInfo({
       </div>
 
       <div>
-        <label className="mb-3 block text-sm font-medium text-foreground">Storage</label>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        <label className="mb-2 block text-sm font-medium text-foreground sm:mb-3">Storage</label>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
           {product.variants.map((variant) => (
             <motion.button
               key={variant.id}
@@ -151,8 +151,8 @@ export function ProductInfo({
       )}
 
       <div>
-        <label className="mb-3 block text-sm font-medium text-foreground">Color</label>
-        <div className="flex flex-wrap gap-3">
+        <label className="mb-2 block text-sm font-medium text-foreground sm:mb-3">Color</label>
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {product.colors.map((color) => (
             <motion.button
               key={color.id}
@@ -194,9 +194,9 @@ export function ProductInfo({
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
-        <h3 className="mb-3 text-sm font-semibold text-card-foreground">Key Features</h3>
-        <ul className="space-y-2">
+      <div className="rounded-lg border border-border bg-card p-3 sm:rounded-xl sm:p-4 lg:p-5">
+        <h3 className="mb-2 text-sm font-semibold text-card-foreground sm:mb-3">Key Features</h3>
+        <ul className="space-y-1.5 sm:space-y-2">
           {product.features.map((feature, index) => (
             <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
               <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />

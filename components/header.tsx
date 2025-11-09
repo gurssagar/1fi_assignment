@@ -46,15 +46,13 @@ export function Header({
     if (variant === "product") {
       return [
         { href: "/products", label: "Products" },
-        { href: "/#how-it-works", label: "How it Works" },
-        { href: "/#about", label: "About" },
+       
       ]
     }
 
     return [
       { href: "/#products", label: "Products" },
-      { href: "/#how-it-works", label: "How It Works" },
-      { href: "/#about", label: "About" },
+     
     ]
   }
 
@@ -85,7 +83,7 @@ export function Header({
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <Shield className="h-4 w-4 text-accent" />
-            <span className="text-sm text-muted-foreground">Secure Checkout</span>
+            <span className="hidden text-sm text-muted-foreground sm:inline">Secure Checkout</span>
           </div>
         </div>
       </motion.header>
@@ -164,10 +162,10 @@ export function Header({
                   </Button>
                 </motion.div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="w-56">
                 <div className="px-2 py-1.5">
-                  <p className="text-sm font-semibold">{user.fullName}</p>
-                  <p className="text-xs text-muted-foreground">{user.email}</p>
+                  <p className="text-sm font-semibold truncate">{user.fullName}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -191,12 +189,17 @@ export function Header({
           ) : (
             <>
               <Link href="/login">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="hidden sm:inline-flex">
                   Login
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button size="sm">Sign Up</Button>
+                <Button size="sm" className="hidden sm:inline-flex">Sign Up</Button>
+              </Link>
+              <Link href="/login">
+                <Button variant="ghost" size="icon" className="h-9 w-9 sm:hidden">
+                  <User className="h-4 w-4" />
+                </Button>
               </Link>
             </>
           )}

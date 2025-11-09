@@ -144,12 +144,12 @@ export function OrdersPage() {
                             </Badge>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-foreground">
+                        <div className="text-left sm:text-right">
+                          <div className="text-xl font-bold text-foreground sm:text-2xl">
                             {formatPrice(order.totalAmount)}
                           </div>
                           {order.totalCashback > 0 && (
-                            <div className="text-sm text-accent">
+                            <div className="text-xs text-accent sm:text-sm">
                               {formatPrice(order.totalCashback)} Cashback
                             </div>
                           )}
@@ -157,13 +157,13 @@ export function OrdersPage() {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         {order.items.map((item) => (
                           <div
                             key={item.id}
-                            className="flex gap-3 rounded-lg border border-border p-3"
+                            className="flex gap-2 rounded-lg border border-border p-2 sm:gap-3 sm:p-3"
                           >
-                            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-muted">
+                            <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md bg-muted sm:h-16 sm:w-16">
                               <img
                                 src={item.productImage || "/placeholder.svg"}
                                 alt={item.productName}
@@ -171,10 +171,10 @@ export function OrdersPage() {
                               />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h4 className="truncate text-sm font-semibold text-foreground">
+                              <h4 className="truncate text-xs font-semibold text-foreground sm:text-sm">
                                 {item.productName}
                               </h4>
-                              <div className="mt-1 text-xs text-muted-foreground">
+                              <div className="mt-0.5 text-[10px] text-muted-foreground sm:mt-1 sm:text-xs">
                                 {item.variantStorage && <span>{item.variantStorage}</span>}
                                 {item.variantColor && (
                                   <>
@@ -183,11 +183,11 @@ export function OrdersPage() {
                                   </>
                                 )}
                               </div>
-                              <div className="mt-1 flex items-center justify-between">
-                                <span className="text-xs text-muted-foreground">
+                              <div className="mt-1 flex flex-col gap-0.5 sm:flex-row sm:items-center sm:justify-between">
+                                <span className="text-[10px] text-muted-foreground sm:text-xs">
                                   Qty: {item.quantity} × {formatPrice(item.monthlyPayment)}/mo
                                 </span>
-                                <span className="text-sm font-semibold text-foreground">
+                                <span className="text-xs font-semibold text-foreground sm:text-sm">
                                   {formatPrice(item.totalAmount * item.quantity)}
                                 </span>
                               </div>
@@ -196,25 +196,25 @@ export function OrdersPage() {
                         ))}
                       </div>
 
-                      <div className="border-t border-border pt-4">
-                        <h4 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-                          <MapPin className="h-4 w-4 text-accent" />
+                      <div className="border-t border-border pt-3 sm:pt-4">
+                        <h4 className="mb-2 flex items-center gap-2 text-xs font-semibold text-foreground sm:mb-3 sm:text-sm">
+                          <MapPin className="h-3 w-3 text-accent sm:h-4 sm:w-4" />
                           Shipping Address
                         </h4>
-                        <div className="space-y-1 text-sm text-muted-foreground">
+                        <div className="space-y-0.5 text-xs text-muted-foreground sm:space-y-1 sm:text-sm">
                           <p className="font-medium text-foreground">{order.shippingName}</p>
-                          <p>{order.shippingAddress}</p>
+                          <p className="break-words">{order.shippingAddress}</p>
                           <p>
                             {order.shippingCity}, {order.shippingState} - {order.shippingPincode}
                           </p>
                           {order.shippingLandmark && <p>Landmark: {order.shippingLandmark}</p>}
-                          <div className="mt-2 flex flex-wrap gap-4">
+                          <div className="mt-2 flex flex-col gap-2 sm:mt-2 sm:flex-row sm:flex-wrap sm:gap-4">
                             <div className="flex items-center gap-1">
-                              <Mail className="h-3 w-3" />
-                              <span>{order.shippingEmail}</span>
+                              <Mail className="h-3 w-3 shrink-0" />
+                              <span className="break-all">{order.shippingEmail}</span>
                             </div>
                             <div className="flex items-center gap-1">
-                              <Phone className="h-3 w-3" />
+                              <Phone className="h-3 w-3 shrink-0" />
                               <span>{order.shippingPhone}</span>
                             </div>
                           </div>

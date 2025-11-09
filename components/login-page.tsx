@@ -67,7 +67,7 @@ export function LoginPage() {
     <div className="min-h-screen bg-background">
       <Header showGetStarted={false} />
       
-      <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="w-full max-w-md">
           <SlideUp delay={0.2}>
             <Card>

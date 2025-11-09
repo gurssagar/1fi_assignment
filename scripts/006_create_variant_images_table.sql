@@ -16,3 +16,4 @@ ALTER TABLE variant_images ENABLE ROW LEVEL SECURITY;
 -- Create policy for public read access
 CREATE POLICY "Allow public read access to variant_images" ON variant_images FOR SELECT USING (true);
 
+

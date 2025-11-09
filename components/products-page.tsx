@@ -17,6 +17,15 @@ import { motion, AnimatePresence } from "framer-motion"
 import { FadeIn, SlideUp, StaggerContainer, StaggerItem, smoothEase } from "@/components/animation-wrapper"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 
 interface ProductsPageProps {
   products: Product[]
@@ -24,12 +33,15 @@ interface ProductsPageProps {
 
 type SortOption = "default" | "price-low" | "price-high" | "name-asc" | "name-desc"
 
+const ITEMS_PER_PAGE = 10
+
 export function ProductsPage({ products }: ProductsPageProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [sortBy, setSortBy] = useState<SortOption>("default")
   const [isFilterOpen, setIsFilterOpen] = useState(true)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const categories = useMemo(() => {
     return Array.from(new Set(products.map((p) => p.category))).sort()
@@ -105,6 +117,57 @@ export function ProductsPage({ products }: ProductsPageProps) {
 
     return filtered
   }, [products, selectedCategories, selectedBrands, priceRange, sortBy])
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / ITEMS_PER_PAGE)
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const paginatedProducts = filteredAndSortedProducts.slice(startIndex, endIndex)
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [selectedCategories, selectedBrands, priceRange, sortBy])
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const getPageNumbers = () => {
+    const pages: (number | 'ellipsis')[] = []
+    const maxVisible = 5
+
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i)
+        }
+        pages.push('ellipsis')
+        pages.push(totalPages)
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1)
+        pages.push('ellipsis')
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i)
+        }
+      } else {
+        pages.push(1)
+        pages.push('ellipsis')
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i)
+        }
+        pages.push('ellipsis')
+        pages.push(totalPages)
+      }
+    }
+
+    return pages
+  }
 
   const handleCategoryToggle = (category: string) => {
     setSelectedCategories((prev) =>
@@ -311,8 +374,13 @@ export function ProductsPage({ products }: ProductsPageProps) {
                       )}
                     </Button>
                     <p className="text-sm text-muted-foreground">
-                      Showing <span className="font-semibold text-foreground">{filteredAndSortedProducts.length}</span> of{" "}
-                      <span className="font-semibold text-foreground">{products.length}</span> products
+                      Showing <span className="font-semibold text-foreground">
+                        {filteredAndSortedProducts.length > 0 ? startIndex + 1 : 0} - {Math.min(endIndex, filteredAndSortedProducts.length)}
+                      </span> of{" "}
+                      <span className="font-semibold text-foreground">{filteredAndSortedProducts.length}</span> products
+                      {filteredAndSortedProducts.length !== products.length && (
+                        <span className="text-muted-foreground"> (filtered from {products.length} total)</span>
+                      )}
                     </p>
                     {activeFiltersCount > 0 && (
                       <Badge variant="secondary" className="hidden lg:inline-flex ml-2">
@@ -324,12 +392,13 @@ export function ProductsPage({ products }: ProductsPageProps) {
               </FadeIn>
 
               <AnimatePresence mode="wait">
-                {filteredAndSortedProducts.length > 0 ? (
-                  <StaggerContainer
-                    key={`products-${filteredAndSortedProducts.length}-${selectedCategories.join(',')}-${selectedBrands.join(',')}-${priceRange[0]}-${priceRange[1]}`}
-                    className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
-                  >
-                    {filteredAndSortedProducts.map((product) => {
+                {paginatedProducts.length > 0 ? (
+                  <>
+                    <StaggerContainer
+                      key={`products-${filteredAndSortedProducts.length}-${selectedCategories.join(',')}-${selectedBrands.join(',')}-${priceRange[0]}-${priceRange[1]}-${currentPage}`}
+                      className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
+                    >
+                      {paginatedProducts.map((product) => {
               const priceInK = (product.base_price / 1000).toFixed(1)
               const emiFrom = Math.floor(product.base_price / 12)
               const cashback = Math.floor(product.base_price * 0.05)
@@ -379,7 +448,56 @@ export function ProductsPage({ products }: ProductsPageProps) {
                 </StaggerItem>
                     )
                   })}
-                  </StaggerContainer>
+                    </StaggerContainer>
+
+                    {totalPages > 1 && (
+                      <div className="mt-8 flex justify-center">
+                        <Pagination>
+                          <PaginationContent>
+                            <PaginationItem>
+                              <PaginationPrevious
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  if (currentPage > 1) handlePageChange(currentPage - 1)
+                                }}
+                                className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                              />
+                            </PaginationItem>
+                            {getPageNumbers().map((page, index) => (
+                              <PaginationItem key={index}>
+                                {page === 'ellipsis' ? (
+                                  <PaginationEllipsis />
+                                ) : (
+                                  <PaginationLink
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      handlePageChange(page)
+                                    }}
+                                    isActive={currentPage === page}
+                                    className="cursor-pointer"
+                                  >
+                                    {page}
+                                  </PaginationLink>
+                                )}
+                              </PaginationItem>
+                            ))}
+                            <PaginationItem>
+                              <PaginationNext
+                                href="#"
+                                onClick={(e) => {
+                                  e.preventDefault()
+                                  if (currentPage < totalPages) handlePageChange(currentPage + 1)
+                                }}
+                                className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                              />
+                            </PaginationItem>
+                          </PaginationContent>
+                        </Pagination>
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <motion.div
                     key="no-products"
